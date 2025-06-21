@@ -1,12 +1,11 @@
-// import Form from 'react-bootstrap/Form';
-// import Button from 'react-bootstrap/Button'
+
 import { Form, Button } from "react-bootstrap";
 import ListaTareas from "./ListaTareas";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const FormularioTareas = () => {
-    
+
     // VALIDACIONES con react-hook-form. traigo libreria de validaciones useForm()
     const {
         register,
@@ -14,16 +13,26 @@ const FormularioTareas = () => {
         formState: { errors },
         reset
     } = useForm();
-    
+
     // uso un State cuando el dato cambia y quiero que se renderice en el momento
-    // el State es 'tareas' es el array, ´setTareas' en la funcion para modifica el valor del state
-    const [tareas,setTareas] = useState([])
+    // el State 'tareas' es el array, ´setTareas' en la funcion para modifica el valor del state
+
+    const tareasLocalStorage = JSON.parse(localStorage.getItem('tareas')) || []
+    const [tareas, setTareas] = useState(tareasLocalStorage);
+
+
+    // useEffect actua en montaje y actualizacion. [tareas] significa que cuando cambie tareas ejecuta useeffect
+    useEffect(() => {
+        // ejecuta automaticmanete este odigo cuando suceda el ciclo de vida del componente
+        console.log('hola desde useeffect')
+        localStorage.setItem('tareas', JSON.stringify(tareas))
+    }, [tareas])
 
     // dato: se guarda lo que el usuario cargo el input
     const agregarTarea = (dato) => {
         console.log(dato.tarea)
         //... hace una copia de 'tareas' y agrega al final la nueva tarea ingresada
-        setTareas([...tareas,dato.tarea])
+        setTareas([...tareas, dato.tarea])
         // invoca a reset de la libreria de validaciones
         reset()
     }
@@ -38,7 +47,7 @@ const FormularioTareas = () => {
 
     return (
         <>
-        {/* handleSubmit hace las validaciones, si todo esta ok, llama a agregarTarea */}
+            {/* handleSubmit hace las validaciones, si todo esta ok, llama a agregarTarea */}
             <Form onSubmit={handleSubmit(agregarTarea)}>
                 <Form.Group
                     className="mb-1 d-flex"
