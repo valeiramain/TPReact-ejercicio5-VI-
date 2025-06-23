@@ -20,17 +20,22 @@ const FormularioTareas = () => {
     const tareasLocalStorage = JSON.parse(localStorage.getItem('tareas')) || []
     const [tareas, setTareas] = useState(tareasLocalStorage);
 
-
-    // useEffect actua en montaje y actualizacion. [tareas] significa que cuando cambie tareas ejecuta useeffect
     useEffect(() => {
-        // ejecuta automaticmanete este odigo cuando suceda el ciclo de vida del componente
-        console.log('hola desde useeffect')
         localStorage.setItem('tareas', JSON.stringify(tareas))
     }, [tareas])
 
     // dato: se guarda lo que el usuario cargo el input
     const agregarTarea = (dato) => {
-        console.log(dato.tarea)
+        const nuevaTarea = dato.tarea.trim();
+
+        // Verificar si ya existe
+        const existe = tareas.includes(nuevaTarea);
+
+        if (existe) {
+            alert("⚠️ Ya existe una tarea con ese nombre");
+            return;
+        }
+
         //... hace una copia de 'tareas' y agrega al final la nueva tarea ingresada
         setTareas([...tareas, dato.tarea])
         // invoca a reset de la libreria de validaciones
