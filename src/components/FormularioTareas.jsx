@@ -22,13 +22,13 @@ const FormularioTareas = () => {
 
     useEffect(() => {
         // ejecuta automaticmanete este odigo cuando suceda el ciclo de vida del componente
-        
+
         localStorage.setItem('tareas', JSON.stringify(tareas))
     }, [tareas])
 
     // dato: se guarda lo que el usuario cargo el input
     const agregarTarea = (dato) => {
-         const nuevaTarea = dato.tarea.trim();
+        const nuevaTarea = dato.tarea.trim();
 
         // Verificar si ya existe
         const existe = tareas.includes(nuevaTarea);
