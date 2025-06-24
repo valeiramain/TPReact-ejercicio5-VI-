@@ -21,12 +21,14 @@ const FormularioTareas = () => {
     const [tareas, setTareas] = useState(tareasLocalStorage);
 
     useEffect(() => {
+        // ejecuta automaticmanete este odigo cuando suceda el ciclo de vida del componente
+        
         localStorage.setItem('tareas', JSON.stringify(tareas))
     }, [tareas])
 
     // dato: se guarda lo que el usuario cargo el input
     const agregarTarea = (dato) => {
-        const nuevaTarea = dato.tarea.trim();
+         const nuevaTarea = dato.tarea.trim();
 
         // Verificar si ya existe
         const existe = tareas.includes(nuevaTarea);
@@ -35,7 +37,7 @@ const FormularioTareas = () => {
             alert("⚠️ Ya existe una tarea con ese nombre");
             return;
         }
-
+        console.log(dato.tarea)
         //... hace una copia de 'tareas' y agrega al final la nueva tarea ingresada
         setTareas([...tareas, dato.tarea])
         // invoca a reset de la libreria de validaciones
